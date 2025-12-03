@@ -1,14 +1,11 @@
-import sys
-import json
 from typing import Optional
 
 from PIL import Image
-from PySide6.QtWidgets import (QApplication, QWidget, QLabel,
-                               QPushButton, QLineEdit, QMessageBox,
-                               QGridLayout, QFrame, QFileDialog)
-from PySide6.QtCore import QThread, QSize, QRect
+from PySide6.QtWidgets import (QWidget, QMessageBox, QGridLayout, QFrame,
+                               QPushButton, QLabel, QLineEdit, QFileDialog)
+from PySide6.QtCore import QSize, QRect, QThread
 
-from .qss import create_qss
+from .qss import get_qss
 # from settings import SettingsWindow
 from .image_preview import ImagePreviewWindow
 from .qimage import QMemeImage
@@ -19,6 +16,7 @@ class MainWindow(QWidget):
         super().__init__()
         # self.settings_window = SettingsWindow(self)
         self.msg_box = QMessageBox()
+        self.qss = get_qss()
         self.initializeUI()
 
     def initializeUI(self):
@@ -26,18 +24,7 @@ class MainWindow(QWidget):
         self.setMinimumSize(QSize(310, 230))
         self.setMaximumSize(QSize(850, 540))
         self.setWindowTitle("Demotivational Poster Maker")
-        self.getQSS()
         self.setUpMainWindow()
-
-    def getQSS(self):
-        self.qss = dict()
-        try:
-            with open("qss.json", "r", encoding="utf-8") as file:
-                self.qss: dict = json.loads(file.read())
-        except FileNotFoundError:
-            self.qss = create_qss()
-        except Exception as e:
-            print(e)
 
     def setUpMainWindow(self):
         self.grid_layout = QGridLayout(self)
