@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 
 def create_qss() -> dict[str, str]:
@@ -14,3 +15,13 @@ def create_qss() -> dict[str, str]:
     with open("qss.json", "w", encoding="utf-8") as file:
         file.write(json.dumps(qss, indent=4))
     return qss
+
+
+def get_qss() -> Optional[dict[str, str]]:
+    try:
+        with open("qss.json", "r", encoding="utf-8") as file:
+            return json.loads(file.read())
+    except FileNotFoundError:
+        return create_qss()
+    except Exception as e:
+        print(e)
