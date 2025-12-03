@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QDialog, QWidget, QFrame, QPushButton, QLabel, QMe
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt, QSize, QRect, QThread
 
-from .qss import create_qss
+from .qss import get_qss
 
 
 class ImagePreviewWindow(QDialog):
@@ -13,23 +13,13 @@ class ImagePreviewWindow(QDialog):
         super().__init__(parent=parent)
         self.image = image
         self.msg_box = QMessageBox()
+        self.qss = get_qss()
         self.initializeUI()
 
     def initializeUI(self):
         self.setFixedSize(QSize(340, 370))
         self.setWindowTitle("Demotivational Poster Maker - preview")
-        self.getQSS()
         self.setUpWindow()
-
-    def getQSS(self):
-        self.qss = dict()
-        try:
-            with open("qss.json", "r", encoding="utf-8") as file:
-                self.qss: dict = json.loads(file.read())
-        except FileNotFoundError:
-            self.qss = create_qss()
-        except Exception as e:
-            print(e)
 
     def setUpWindow(self):
         self.frame = QFrame(self)
