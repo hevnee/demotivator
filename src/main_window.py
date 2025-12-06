@@ -131,6 +131,7 @@ class MainWindow(QWidget):
 
     def imageWorkerErrorHandler(self, error: Exception):
         self.msg_box.critical(self, "ERROR", str(error))
+        self.updateWidgetState(False)
 
     def closeEvent(self, event):
         try:
