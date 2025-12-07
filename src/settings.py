@@ -16,6 +16,7 @@ class SettingsWindow(QDialog):
 
     def initializeUI(self):
         self.setFixedSize(QSize(350, 416))
+        self.setWindowTitle("Demotivational Poster Maker - settings")
         self.qss = get_qss()
         self.setUpWindow()
 
