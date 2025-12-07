@@ -6,7 +6,8 @@ from PySide6.QtWidgets import (QWidget, QMessageBox, QGridLayout, QFrame,
 from PySide6.QtCore import QSize, QRect, QThread
 
 from .qss import get_qss
-# from settings import SettingsWindow
+from .options import get_options
+from .settings import SettingsWindow
 from .image_preview import ImagePreviewWindow
 from .qimage import QMemeImage
 
@@ -14,7 +15,6 @@ from .qimage import QMemeImage
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        # self.settings_window = SettingsWindow(self)
         self.msg_box = QMessageBox()
         self.qss = get_qss()
         self.initializeUI()
@@ -46,7 +46,6 @@ class MainWindow(QWidget):
         self.settings_button.setGeometry(QRect(170, 10, 70, 24))
         self.settings_button.setStyleSheet(self.qss.get("QPushButton"))
         self.settings_button.clicked.connect(self.settingsButtonPressed)
-        self.settings_button.setDisabled(True)
 
         self.current_file_path_label = QLabel("", self.frame)
         self.current_file_path_label.setGeometry(QRect(10, 44, 230, 16))
@@ -84,8 +83,7 @@ class MainWindow(QWidget):
         self.current_file_path_label.setToolTip(file_path)
 
     def settingsButtonPressed(self):
-        ...
-        # self.settings_window.exec()
+        SettingsWindow(get_options(), self).exec_()
 
     def generateButtonPressed(self):
         current_file = self.current_file_path_label.text()
@@ -120,7 +118,7 @@ class MainWindow(QWidget):
 
     def updateWidgetState(self, value: bool):
         self.choose_image_button.setDisabled(value)
-        # self.settings_button.setDisabled(value)
+        self.settings_button.setDisabled(value)
         self.title_text_line_edit.setDisabled(value)
         self.subtitle_text_line_edit.setDisabled(value)
         self.generate_button.setDisabled(value)
@@ -131,7 +129,7 @@ class MainWindow(QWidget):
 
     def imageWorkerErrorHandler(self, error: Exception):
         self.msg_box.critical(self, "ERROR", str(error))
-        self.updateWidgetState(False)
+        self.image_thread.quit()
 
     def closeEvent(self, event):
         try:
