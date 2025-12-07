@@ -1,8 +1,7 @@
+import importlib
 from typing import Optional
 
 from PySide6.QtCore import QObject, Signal
-
-from .image import ImageCreation
 
 
 class QMemeImage(QObject):
@@ -19,8 +18,10 @@ class QMemeImage(QObject):
     def generateMeme(self) -> None:
         try:
             self.update_state.emit(True)
-            image = ImageCreation(self.file_path, self.title_text, self.subtitle_text).generate_image()
-            self.update_state.emit(False)
+            image_module = importlib.import_module(".image", "src")
+            image = image_module.ImageCreation(self.file_path, self.title_text, self.subtitle_text).generate_image()
             self.finished.emit(image)
         except Exception as e:
             self.error_handler.emit(e)
+        finally:
+            self.update_state.emit(False)
