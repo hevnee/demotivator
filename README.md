@@ -45,7 +45,7 @@ I made it to demonstrate my knowledge. The code is clean (maybe not as clean as 
 
 I plan to make a couple of updates:
 
-* [ ] Settings support (using a JSON file)
+* [x] Settings support (using a JSON file)
 * [ ] API (in another branch)
 
 ## Inspiration
