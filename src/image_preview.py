@@ -1,5 +1,3 @@
-import json
-
 from PIL import Image
 from PySide6.QtWidgets import QDialog, QWidget, QFrame, QPushButton, QLabel, QMessageBox, QFileDialog
 from PySide6.QtGui import QPixmap
